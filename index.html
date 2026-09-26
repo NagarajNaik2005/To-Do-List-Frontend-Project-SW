@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Smart To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
@@ -12,21 +14,44 @@
     </header>
     <main>
         <form>
-            <label for="tasks">Enter your task: </label>
-            <input type="text" id="tasks">
+            <label for="task">Enter your task: </label>
+            <input type="text" id="task">
 
             <label for="priority">Priority</label>
-            <select id="priority" name="="priority">
+            <select id="priority" name="priority">
                 <option value="low">low</option>
                 <option value="medium" selected>Medium</option>
                 <option value="high">High</option>
             </select>
 
-            <label for="dueDate"></label>
+            <label for="dueDate">Due Date</label>
             <input type="date" id="dueDate">
 
-            <button id=""addTask></button>
-        </form>
+            <button id="addTask">Add Task</button>
+
+        </form> 
+
+        <label for="search">Search Tasks</label>
+        <input type="search" id="search" placeholder="Search your tasks...">
+
+        <div class="filters">
+            <button type="button" id="allTasks">All</button>
+            <button type="button" id="activeTasks">Active Tasks</button>
+            <button type="button" id="completedTasks">Completed Tasks</button>
+        </div>
+
+        <div class="task-counter">
+            <p>Total: <span id="totalCount">0</span></p>
+            <p>Active: <span id="activeCount">0</span></p>
+            <p>Completed: <span id="completedCount">0</span></p>
+        </div>
+
+        <div class="taskList">
+            <ul id="TaskList">
+
+            </ul>
+        </div>
+
     </main>
 </body>
 </html>
