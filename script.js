@@ -4,6 +4,37 @@ let priorityInput = document.getElementById("priority");
 let duedateInput = document.getElementById("dueDate");
 let taskButton = document.getElementById("addTask");
 
+let totalCount = document.getElementById("totalCount");
+let activeCount = document.getElementById("activeCount");
+let completedCount = document.getElementById("completedCount");
+
+let allTasksButton = document.getElementById("allTasks");
+let activeTasksButton = document.getElementById("activeTasks");
+let completedTasksButton = document.getElementById("completedTasks");
+let currentFilter = "all";
+
+let searchInput = document.getElementById("search");
+let searchText = "";
+
+allTasksButton.addEventListener("click", function() {
+    currentFilter = "all";
+    renderTasks();
+});
+
+activeTasksButton.addEventListener("click", function() {
+    currentFilter = "active";
+    renderTasks();
+});
+
+completedTasksButton.addEventListener("click", function() {
+    currentFilter = "completed";
+    renderTasks();
+});
+
+searchInput.addEventListener("input", function() {
+    searchText = searchInput.value.toLowerCase().trim();
+});
+
 taskButton.addEventListener("click", function(event) {
     event.preventDefault();
     if (taskInput.value.trim() === "") {
@@ -27,7 +58,28 @@ let taskList = document.getElementById("taskList");
 function renderTasks() {
     taskList.innerHTML = "";
 
+    totalCount.textContent = tasks.length;
+
+    const activeTasks = tasks.filter(function(task) {
+    return !task.completed;
+    });
+    activeCount.textContent = activeTasks.length;
+
+    const completedTasks = tasks.filter(function(task) {
+    return task.completed;
+    });
+    completedCount.textContent = completedTasks.length;
+
     tasks.forEach(function (task) {
+
+        if (currentFilter === "active" && task.completed) {
+        return;
+        }
+
+        if (currentFilter === "completed" && !task.completed) {
+        return;
+        }
+
         const li = document.createElement("li");
         li.classList.add("task-item");
         if (task.completed) {
