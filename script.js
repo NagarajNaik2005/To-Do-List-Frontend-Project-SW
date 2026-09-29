@@ -33,6 +33,7 @@ completedTasksButton.addEventListener("click", function() {
 
 searchInput.addEventListener("input", function() {
     searchText = searchInput.value.toLowerCase().trim();
+    renderTasks();
 });
 
 taskButton.addEventListener("click", function(event) {
@@ -49,7 +50,12 @@ taskButton.addEventListener("click", function(event) {
             completed: false
         };
         tasks.push(task);
+        saveTasks();
         renderTasks();
+
+        taskInput.value = "";
+        priorityInput.value = "medium";
+        duedateInput.value = "";
     }
 });
 
@@ -77,6 +83,10 @@ function renderTasks() {
         }
 
         if (currentFilter === "completed" && !task.completed) {
+        return;
+        }
+
+        if (!task.title.toLowerCase().includes(searchText)) {
         return;
         }
 
@@ -124,6 +134,7 @@ function renderTasks() {
 
         completeButton.addEventListener("click", function() {
             task.completed = !task.completed;
+            saveTasks();
             renderTasks();
         });
 
@@ -133,6 +144,7 @@ function renderTasks() {
             return task.id !== taskId;
             
         });
+        saveTasks();
         renderTasks();
         });
 
@@ -145,8 +157,24 @@ function renderTasks() {
             const newTitle = prompt("Enter the new task title:", selectedTask.title);
             if (newTitle !== null && newTitle.trim() !== "") {
             selectedTask.title = newTitle.trim();
+            saveTasks();
             renderTasks();
             }
         });
     })
 }
+
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasks() {
+    const savedTasks = localStorage.getItem("tasks");
+
+    if (savedTasks) {
+        tasks = JSON.parse(savedTasks);
+    }
+
+    renderTasks();
+}
+loadTasks();
